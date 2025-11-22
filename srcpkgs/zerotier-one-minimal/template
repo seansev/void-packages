@@ -1,0 +1,23 @@
+# Template file for 'zerotier-one-minimal'
+pkgname=zerotier-one-minimal
+version=1.16.0
+revision=1
+build_style=gnu-makefile
+make_build_args="ZT_SSO_SUPPORTED=0 ZT_NONFREE=0 ZT_CONTROLLER=0"
+hostmakedepends="nodejs"
+makedepends="sqlite-devel"
+short_desc="Network Virtualization Everywhere"
+maintainer="Sean Williams <mail@seansev.com>"
+license="MPL-2.0"
+homepage="https://www.zerotier.com/"
+distfiles="https://github.com/zerotier/ZeroTierOne/archive/${version}.tar.gz"
+checksum=aa9de313d365bf0efb3871aaa56f2d323a08f46df47b627c4eff4f4203fa7fc5
+
+
+pre_install() {
+	sed -i 's/sbin/bin/g' make-linux.mk
+}
+
+post_install() {
+	vsv zerotier
+}

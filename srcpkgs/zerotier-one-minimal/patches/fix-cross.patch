@@ -1,0 +1,69 @@
+--- ZeroTierOne/make-linux.mk	2025-11-20 06:38:10.484781120 -0500
++++ ZeroTierOne-patched/make-linux.mk	2025-11-20 06:37:29.980038833 -0500
+@@ -155,6 +155,9 @@
+ 	override DEFS+=-DZT_NO_TYPE_PUNNING
+ 	override DEFS+=-DZT_NO_CAPABILITIES
+ endif
++ifeq ($(CC_MACH),powerpc64)
++	ZT_ARCHITECTURE=8
++endif
+ ifeq ($(CC_MACH),ppc64le)
+ 	ZT_ARCHITECTURE=8
+ endif
+@@ -202,27 +205,27 @@
+ ifeq ($(CC_MACH),armv6)
+ 	ZT_ARCHITECTURE=3
+ 	override DEFS+=-DZT_NO_TYPE_PUNNING
+-	ZT_USE_ARM32_NEON_ASM_CRYPTO=1
++	ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+ endif
+ ifeq ($(CC_MACH),armv6l)
+ 	ZT_ARCHITECTURE=3
+ 	override DEFS+=-DZT_NO_TYPE_PUNNING
+-	ZT_USE_ARM32_NEON_ASM_CRYPTO=1
++	ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+ endif
+ ifeq ($(CC_MACH),armv6zk)
+ 	ZT_ARCHITECTURE=3
+ 	override DEFS+=-DZT_NO_TYPE_PUNNING
+-	ZT_USE_ARM32_NEON_ASM_CRYPTO=1
++	ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+ endif
+ ifeq ($(CC_MACH),armv6kz)
+ 	ZT_ARCHITECTURE=3
+ 	override DEFS+=-DZT_NO_TYPE_PUNNING
+-	ZT_USE_ARM32_NEON_ASM_CRYPTO=1
++	ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+ endif
+ ifeq ($(CC_MACH),armv6k)
+ 	ZT_ARCHITECTURE=3
+ 	override DEFS+=-DZT_NO_TYPE_PUNNING
+-	ZT_USE_ARM32_NEON_ASM_CRYPTO=1
++	ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+ endif
+ ifeq ($(CC_MACH),armv7)
+ 	ZT_ARCHITECTURE=3
+@@ -358,23 +361,6 @@
+ 	endif
+ endif
+ 
+-# ARM32 hell -- use conservative CFLAGS
+-ifeq ($(ZT_ARCHITECTURE),3)
+-	ifeq ($(shell if [ -e /usr/bin/dpkg ]; then dpkg --print-architecture; fi),armel)
+-		override CFLAGS+=-march=armv5t -mfloat-abi=soft -msoft-float -mno-unaligned-access -marm
+-		override CXXFLAGS+=-march=armv5t -mfloat-abi=soft -msoft-float -mno-unaligned-access -marm
+-		ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+-	else
+-		ifeq ($(ZT_EXTOSDEP), 0)
+-			override CFLAGS+=-mfloat-abi=hard -march=armv6zk -marm -mfpu=vfp -mno-unaligned-access -mtp=cp15 -mcpu=arm1176jzf-s
+-			override CXXFLAGS+=-mfloat-abi=hard -march=armv6zk -marm -mfpu=vfp -fexceptions -mno-unaligned-access -mtp=cp15 -mcpu=arm1176jzf-s
+-		else
+-			override DEFS+=-DZT_NO_PEER_METRICS
+-		endif
+-		ZT_USE_ARM32_NEON_ASM_CRYPTO=0
+-	endif
+-endif
+-
+ # Build faster crypto on some targets
+ ifeq ($(ZT_USE_X64_ASM_SALSA),1)
+ 	override DEFS+=-DZT_USE_X64_ASM_SALSA2012
