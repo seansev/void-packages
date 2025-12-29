@@ -6,7 +6,7 @@ build_style=gnu-makefile
 make_build_args="ZT_SSO_SUPPORTED=0 ZT_NONFREE=0 ZT_CONTROLLER=0"
 hostmakedepends="nodejs"
 makedepends="sqlite-devel"
-short_desc="Network Virtualization Everywhere"
+short_desc="Network Virtualization Everywhere - No non-free code"
 maintainer="Sean Williams <mail@seansev.com>"
 license="MPL-2.0"
 homepage="https://www.zerotier.com/"
