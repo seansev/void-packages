@@ -1,0 +1,35 @@
+# Template file for 'zotero'
+pkgname=zotero
+version=8.0.1
+revision=1
+depends="alsa-lib gtk+3 nss"
+short_desc="Collect, organize, cite, and share your research sources"
+maintainer="Sean Williams <mail@seansev.com>"
+license="AGPL-3.0-only"
+homepage="https://www.zotero.org/"
+changelog="https://www.zotero.org/support/changelog"
+distfiles="https://download.zotero.org/client/release/${version}/Zotero-${version}_linux-${XBPS_TARGET_MACHINE}.tar.xz"
+checksum=9749708c5b66386069b3ca96ae8199de9283248503535fbcf30851a8776aac80
+
+do_install() {
+	vlicense "${FILESDIR}/COPYING"
+
+	vinstall icons/icon32.png 644 usr/share/icons/hicolor/32x32/apps zotero.png
+	vinstall icons/icon64.png 644 usr/share/icons/hicolor/64x64/apps zotero.png
+	vinstall icons/icon128.png 644 usr/share/icons/hicolor/128x128/apps zotero.png
+	vinstall icons/symbolic.svg 644 usr/share/icons/hicolor/symbolic/apps zotero-symbolic.svg
+
+	# Usually modified from the 'set_launcher_icon' script.
+	sed -i zotero.desktop -e 's/^Icon=.*/Icon=zotero/'
+	# Also fix this up since zotero's in the path:
+	sed -i zotero.desktop -e 's/^Exec=.*/Exec=zotero -url %U/'
+	vinstall zotero.desktop 644 usr/share/applications
+
+	sed -i zotero -e 's|^CALLDIR=.*|CALLDIR=/usr/lib/zotero|'
+	# Set launch script to exec zotero-bin
+	sed -i zotero -r -e 's|^("\$CALLDIR/zotero-bin".*)|exec \1|'
+	vbin zotero
+
+	vmkdir usr/lib/zotero
+	vcopy '*' usr/lib/zotero
+}
