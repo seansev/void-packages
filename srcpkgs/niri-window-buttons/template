@@ -1,0 +1,20 @@
+# Template file for 'niri-window-buttons'
+pkgname=niri-window-buttons
+version=0.3.4
+revision=1
+build_style=cargo
+hostmakedepends="cargo rust pkg-config"
+makedepends="gtk+3-devel glib-devel cairo-devel pango-devel gdk-pixbuf-devel atk-devel"
+depends="Waybar niri"
+short_desc="Waybar module for window buttons in Niri"
+maintainer="Sean Williams <mail@seansev.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/adelmonte/niri_window_buttons"
+changelog="https://raw.githubusercontent.com/adelmonte/niri_window_buttons/main/CHANGELOG.md"
+distfiles="https://github.com/adelmonte/niri_window_buttons/archive/refs/tags/v${version}.tar.gz"
+checksum=50a512b7469484cfff989cc896254e6e5dd65eaba975715469fc034aaa057cc8
+
+do_install() {
+	vmkdir usr/lib/waybar
+	vinstall target/$XBPS_RUST_TARGET/release/libniri_window_buttons.so 755 usr/lib/waybar
+}
