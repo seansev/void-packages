@@ -1,7 +1,7 @@
 # Template file for 'zotero'
 pkgname=zotero
 version=8.0.3
-revision=1
+revision=2
 depends="alsa-lib gtk+3 nss"
 short_desc="Collect, organize, cite, and share your research sources"
 maintainer="Sean Williams <mail@seansev.com>"
