@@ -1,7 +1,7 @@
 # Template file for 'zotero'
 pkgname=zotero
-version=8.0.3
-revision=2
+version=8.0.4
+revision=1
 depends="alsa-lib gtk+3 nss"
 short_desc="Collect, organize, cite, and share your research sources"
 maintainer="Sean Williams <mail@seansev.com>"
@@ -9,7 +9,7 @@ license="AGPL-3.0-only"
 homepage="https://www.zotero.org/"
 changelog="https://www.zotero.org/support/changelog"
 distfiles="https://download.zotero.org/client/release/${version}/Zotero-${version}_linux-${XBPS_TARGET_MACHINE}.tar.xz"
-checksum=f0a32f509534f6db49975a3bf0727d658958235071931f98028de031388b26f9
+checksum=be7e77d33a6bdc27db61df558d5868d5bd73de4f1ee42900cb7c267e9c249673
 
 do_install() {
 	vlicense "${FILESDIR}/COPYING"
